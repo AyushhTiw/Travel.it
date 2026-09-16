@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: travelit-backend
+
+  profiles:
+    active: dev
+
+server:
+  port: ${SERVER_PORT:8080}
+
+ai:
+  provider: groq
+  base-url: https://api.groq.com/openai/v1
+  api-key: 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
+  model: openai/gpt-oss-120b

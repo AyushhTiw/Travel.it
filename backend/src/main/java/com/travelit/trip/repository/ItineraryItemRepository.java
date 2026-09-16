@@ -1,0 +1,14 @@
+package com.travelit.trip.repository;
+
+import com.travelit.trip.entity.ItineraryItem;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface ItineraryItemRepository
+        extends JpaRepository<ItineraryItem, Long> {
+
+    List<ItineraryItem> findByTripDayIdOrderBySortOrderAsc(
+            Long tripDayId
+    );
+}

@@ -1,0 +1,36 @@
+# Environment
+.env
+.env.*
+!.env.example
+
+# Java / Maven
+target/
+*.class
+*.log
+
+# Node
+node_modules/
+dist/
+build/
+.npm/
+.pnpm-store/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Uploads and storage
+uploads/
+storage/
+
+# Temporary files
+*.tmp
+*.temp
