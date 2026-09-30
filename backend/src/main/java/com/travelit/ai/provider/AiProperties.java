@@ -5,13 +5,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "ai")
 public class AiProperties {
 
-    private String provider = "mock";
+    private String provider;
 
-    private String baseUrl = "https://api.x.ai/v1";
-
-    private String apiKey = "";
-
-    private String model = "grok-4.6";
+    private Gemini gemini = new Gemini();
+    private Groq groq = new Groq();
 
     public String getProvider() {
         return provider;
@@ -21,27 +18,63 @@ public class AiProperties {
         this.provider = provider;
     }
 
-    public String getBaseUrl() {
-        return baseUrl;
+    public Gemini getGemini() {
+        return gemini;
     }
 
-    public void setBaseUrl(String baseUrl) {
-        this.baseUrl = baseUrl;
+    public void setGemini(Gemini gemini) {
+        this.gemini = gemini;
     }
 
-    public String getApiKey() {
-        return apiKey;
+    public Groq getGroq() {
+        return groq;
     }
 
-    public void setApiKey(String apiKey) {
-        this.apiKey = apiKey;
+    public void setGroq(Groq groq) {
+        this.groq = groq;
     }
 
-    public String getModel() {
-        return model;
+    public static class Gemini {
+
+        private String apiKey;
+        private String model;
+
+        public String getApiKey() {
+            return apiKey;
+        }
+
+        public void setApiKey(String apiKey) {
+            this.apiKey = apiKey;
+        }
+
+        public String getModel() {
+            return model;
+        }
+
+        public void setModel(String model) {
+            this.model = model;
+        }
     }
 
-    public void setModel(String model) {
-        this.model = model;
+    public static class Groq {
+
+        private String apiKey;
+        private String model;
+
+        public String getApiKey() {
+            return apiKey;
+        }
+
+        public void setApiKey(String apiKey) {
+            this.apiKey = apiKey;
+        }
+
+        public String getModel() {
+            return model;
+        }
+
+        public void setModel(String model) {
+            this.model = model;
+        }
     }
 }

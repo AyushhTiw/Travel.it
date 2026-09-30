@@ -4,12 +4,32 @@ spring:
 
   profiles:
     active: dev
+  
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 1009775344760-5osvui05vqvc97i7d4p810qmr9j66qqt.apps.googleusercontent.com
+            client-secret: REDACTED_OAUTH_SECRET
+            scope:
+              - openid
+              - profile
+              - email
 
 server:
   port: ${SERVER_PORT:8080}
 
 ai:
   provider: groq
-  base-url: https://api.groq.com/openai/v1
-  api-key: REDACTED_GROQ_KEY
-  model: openai/gpt-oss-120b
+  groq:
+    api-key: 
+    model: qwen/qwen3.8-27b
+
+  gemini:
+    api-key: AQ.Ab8RN6JrQUkZBXPsH8DndYp0JVK_0ztRzO1tbjpzOezWqvMLfw
+    model: "gemini-3.6-flash"
+
+google:
+  maps:
+    api-key: 
