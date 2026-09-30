@@ -1,4 +1,4 @@
-spring:
+﻿spring:
   application:
     name: ${APP_NAME:travelit-backend}
 
