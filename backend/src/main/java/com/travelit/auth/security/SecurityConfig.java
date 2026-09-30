@@ -135,10 +135,11 @@ public class SecurityConfig {
 
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // React/Vite dev server + deployed frontend
+        // React/Vite dev server + deployed production frontend
         configuration.setAllowedOrigins(List.of(
                 "http://localhost:5173",
-                "http://localhost:3000"
+                "http://localhost:3000",
+                "https://travelit-tan.vercel.app"
         ));
 
         configuration.setAllowedMethods(List.of(
