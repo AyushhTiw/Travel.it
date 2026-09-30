@@ -5,6 +5,12 @@ spring:
   profiles:
     active: ${APP_ENV:dev}
 
+  datasource:
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?sslMode=REQUIRED
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
   security:
     oauth2:
       client:
@@ -18,7 +24,8 @@ spring:
               - email
 
 server:
-  port: ${SERVER_PORT:8080}
+  port: ${PORT:${SERVER_PORT:8080}}
+  address: 0.0.0.0
 
 jwt:
   secret: ${JWT_SECRET}
