@@ -16,9 +16,20 @@ import {
 
 // Get backend base URL from environment or fallback to localhost
 const getBackendBaseUrl = () => {
-  return import.meta.env.VITE_API_BASE_URL?.replace('/api/v1', '') ?? 
-         import.meta.env.VITE_BACKEND_URL ?? 
-         'http://localhost:8080';
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+  if (backendUrl) {
+    return backendUrl.replace(/\/+$/, "");
+  }
+
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+
+  if (apiBaseUrl) {
+    return apiBaseUrl.replace(/\/api\/v1\/?$/, "").replace(/\/+$/, "");
+  }
+
+  // Local development fallback only
+  return "http://localhost:8080";
 };
 
 export function LoginForm() {
