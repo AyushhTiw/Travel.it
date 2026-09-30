@@ -53,11 +53,36 @@ public class DestinationService {
     }
 
     public List<DestinationResponse> getAllDestinations() {
-
-        return destinationRepository.findAll()
+        System.out.println("[DestinationService] getAllDestinations called");
+        long count = destinationRepository.count();
+        System.out.println("[DestinationService] Database has " + count + " destinations");
+        
+        List<DestinationResponse> results = destinationRepository.findAll()
                 .stream()
                 .map(this::toResponse)
                 .toList();
+        
+        System.out.println("[DestinationService] Returning " + results.size() + " destinations");
+        return results;
+    }
+
+    public List<DestinationResponse> searchDestinations(String searchTerm) {
+        String cleanedTerm = searchTerm == null ? "" : searchTerm.trim();
+        System.out.println("[DestinationService] searchDestinations - term='" + cleanedTerm + "'");
+        
+        if (cleanedTerm.isEmpty()) {
+            return getAllDestinations();
+        }
+
+        List<Destination> found = destinationRepository.searchDestinations(cleanedTerm);
+        System.out.println("[DestinationService] Repository returned " + found.size() + " destinations");
+        
+        List<DestinationResponse> results = found.stream()
+                .map(this::toResponse)
+                .toList();
+        
+        System.out.println("[DestinationService] Mapped to " + results.size() + " responses");
+        return results;
     }
 
     public DestinationResponse updateDestination(

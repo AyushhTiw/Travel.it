@@ -1,0 +1,167 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Travel.it design system.
+ * Deep ink base, warm sand + horizon teal accents. All colors in oklch.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-sand: var(--sand);
+  --color-sand-foreground: var(--sand-foreground);
+  --color-ink: var(--ink);
+  --color-ink-foreground: var(--ink-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --font-display: var(--font-display-family);
+  --font-sans: var(--font-sans-family);
+  --font-wordmark: "Helvetica Neue", Helvetica, Arial, ui-sans-serif, sans-serif;
+}
+
+:root {
+  --radius: 1rem;
+  --font-display-family: "Fraunces", Georgia, serif;
+  --font-sans-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --background: oklch(0.985 0.008 95);
+  --foreground: oklch(0.21 0.02 160);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.21 0.02 160);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.21 0.02 160);
+  --primary: oklch(0.45 0.09 185);
+  --primary-foreground: oklch(0.985 0.008 95);
+  --secondary: oklch(0.95 0.02 95);
+  --secondary-foreground: oklch(0.27 0.03 170);
+  --muted: oklch(0.955 0.012 95);
+  --muted-foreground: oklch(0.51 0.02 170);
+  --accent: oklch(0.78 0.13 65);
+  --accent-foreground: oklch(0.22 0.03 60);
+  --destructive: oklch(0.55 0.19 27);
+  --destructive-foreground: oklch(0.99 0 0);
+  --success: oklch(0.6 0.13 155);
+  --success-foreground: oklch(0.99 0 0);
+  --sand: oklch(0.93 0.03 80);
+  --sand-foreground: oklch(0.28 0.03 70);
+  --ink: oklch(0.21 0.02 170);
+  --ink-foreground: oklch(0.97 0.01 95);
+  --border: oklch(0.9 0.012 95);
+  --input: oklch(0.9 0.012 95);
+  --ring: oklch(0.45 0.09 185);
+}
+
+.dark {
+  --background: oklch(0.17 0.015 175);
+  --foreground: oklch(0.96 0.008 95);
+  --card: oklch(0.22 0.018 175);
+  --card-foreground: oklch(0.96 0.008 95);
+  --popover: oklch(0.22 0.018 175);
+  --popover-foreground: oklch(0.96 0.008 95);
+  --primary: oklch(0.72 0.11 185);
+  --primary-foreground: oklch(0.17 0.015 175);
+  --secondary: oklch(0.27 0.02 175);
+  --secondary-foreground: oklch(0.96 0.008 95);
+  --muted: oklch(0.27 0.02 175);
+  --muted-foreground: oklch(0.72 0.015 170);
+  --accent: oklch(0.79 0.13 65);
+  --accent-foreground: oklch(0.2 0.03 60);
+  --destructive: oklch(0.65 0.18 25);
+  --destructive-foreground: oklch(0.99 0 0);
+  --success: oklch(0.7 0.13 155);
+  --success-foreground: oklch(0.17 0.015 175);
+  --sand: oklch(0.3 0.025 80);
+  --sand-foreground: oklch(0.95 0.01 90);
+  --ink: oklch(0.13 0.012 175);
+  --ink-foreground: oklch(0.96 0.008 95);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: oklch(0.72 0.11 185);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans-family);
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display-family);
+    letter-spacing: -0.02em;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+}
+
+@utility glass-panel {
+  background-color: color-mix(in oklab, var(--color-card) 72%, transparent);
+  backdrop-filter: blur(14px);
+  border: 1px solid color-mix(in oklab, var(--color-border) 80%, transparent);
+}
+
+@utility text-balance-tight {
+  text-wrap: balance;
+}
+
+@utility skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    color-mix(in oklab, var(--color-muted) 90%, transparent) 25%,
+    color-mix(in oklab, var(--color-secondary) 70%, transparent) 50%,
+    color-mix(in oklab, var(--color-muted) 90%, transparent) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

@@ -32,11 +32,20 @@ public class DestinationController {
     }
 
     @GetMapping
-    public ResponseEntity<List<DestinationResponse>> getAllDestinations() {
-
-        return ResponseEntity.ok(
-                destinationService.getAllDestinations()
-        );
+    public ResponseEntity<List<DestinationResponse>> getAllDestinations(
+            @RequestParam(required = false) String search
+    ) {
+        System.out.println("[DestinationController] GET /destinations - search=" + search);
+        
+        if (search != null && !search.trim().isEmpty()) {
+            List<DestinationResponse> results = destinationService.searchDestinations(search);
+            System.out.println("[DestinationController] Search returned " + results.size() + " results");
+            return ResponseEntity.ok(results);
+        }
+        
+        List<DestinationResponse> all = destinationService.getAllDestinations();
+        System.out.println("[DestinationController] GetAll returned " + all.size() + " results");
+        return ResponseEntity.ok(all);
     }
 
     @GetMapping("/{id}")

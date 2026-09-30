@@ -104,7 +104,8 @@ public class AuthController {
                         user.getId(),
                         user.getName(),
                         user.getEmail(),
-                        user.getRole()
+                        user.getRole(),
+                        user.getProfilePicture()
                 );
 
         return ResponseEntity.ok(response);
@@ -126,7 +127,8 @@ public class AuthController {
                         user.getId(),
                         user.getName(),
                         user.getEmail(),
-                        user.getRole()
+                        user.getRole(),
+                        user.getProfilePicture()
                 );
 
         return ResponseEntity.ok(response);
