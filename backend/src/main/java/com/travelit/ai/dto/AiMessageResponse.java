@@ -29,9 +29,7 @@ public class AiMessageResponse {
         this.createdAt = createdAt;
     }
 
-    public static AiMessageResponse from(
-            AiMessage message
-    ) {
+    public static AiMessageResponse from(AiMessage message) {
         return new AiMessageResponse(
                 message.getId(),
                 message.getConversationId(),
@@ -41,23 +39,17 @@ public class AiMessageResponse {
         );
     }
 
-    public Long getId() {
-        return id;
-    }
+    // Getters
+    public Long getId() { return id; }
+    public Long getConversationId() { return conversationId; }
+    public String getRole() { return role; }
+    public String getContent() { return content; }
+    public LocalDateTime getCreatedAt() { return createdAt; }
 
-    public Long getConversationId() {
-        return conversationId;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
+    // Setters (needed for transient/guest responses built without an entity)
+    public void setId(Long id) { this.id = id; }
+    public void setConversationId(Long conversationId) { this.conversationId = conversationId; }
+    public void setRole(String role) { this.role = role; }
+    public void setContent(String content) { this.content = content; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }

@@ -8,6 +8,7 @@ public class AuthResponse {
     private String name;
     private String email;
     private String role;
+    private String profilePicture;
 
     public AuthResponse() {
     }
@@ -18,7 +19,8 @@ public class AuthResponse {
             Long userId,
             String name,
             String email,
-            String role
+            String role,
+            String profilePicture
     ) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
@@ -26,6 +28,7 @@ public class AuthResponse {
         this.name = name;
         this.email = email;
         this.role = role;
+        this.profilePicture = profilePicture;
     }
 
     public String getAccessToken() {
@@ -74,5 +77,13 @@ public class AuthResponse {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
     }
 }
