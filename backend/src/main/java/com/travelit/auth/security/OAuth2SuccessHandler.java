@@ -3,6 +3,7 @@ package com.travelit.auth.security;
 import com.travelit.auth.entity.User;
 import com.travelit.auth.repository.UserRepository;
 import com.travelit.auth.service.JwtService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -23,6 +24,9 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    
+    @Value("${frontend.url:http://localhost:5173}")
+    private String frontendUrl;
 
     public OAuth2SuccessHandler( 
         UserRepository userRepository,
@@ -73,8 +77,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
         String refreshToken = jwtService.generateRefreshToken(user);
 
-        // ⑥ Frontend par redirect
-        String frontendUrl = System.getProperty("FRONTEND_URL", "http://localhost:5173");
+        // ⑥ Frontend par redirect with environment-based URL
         String redirectUrl =
                 UriComponentsBuilder.fromUriString(frontendUrl + "/oauth2/success")
                         .queryParam("accessToken", accessToken)
