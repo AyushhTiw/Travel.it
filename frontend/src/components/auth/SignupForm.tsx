@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+﻿import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Lock, Mail, User } from "lucide-react";
 
@@ -15,6 +15,13 @@ import {
 } from "@/utils/validation";
 
 const INITIAL: SignupFormValues = { name: "", email: "", password: "", confirmPassword: "" };
+
+// Get backend base URL from environment or fallback to localhost
+const getBackendBaseUrl = () => {
+  return import.meta.env.VITE_API_BASE_URL?.replace('/api/v1', '') ?? 
+         import.meta.env.VITE_BACKEND_URL ?? 
+         'http://localhost:8080';
+};
 
 export function SignupForm() {
   const { signup } = useAuth();
@@ -50,7 +57,8 @@ export function SignupForm() {
   };
 
   const handleGoogleSignup = () => {
-    window.location.href = "http://localhost:8080/oauth2/authorization/google";
+    const backendUrl = getBackendBaseUrl();
+    window.location.href = `${backendUrl}/oauth2/authorization/google`;
   };
 
   return (
