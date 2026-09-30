@@ -6,6 +6,7 @@ public class UserProfileResponse {
     private String name;
     private String email;
     private String role;
+    private String profilePicture;
 
     public UserProfileResponse() {
     }
@@ -14,12 +15,14 @@ public class UserProfileResponse {
             Long userId,
             String name,
             String email,
-            String role
+            String role,
+            String profilePicture
     ) {
         this.userId = userId;
         this.name = name;
         this.email = email;
         this.role = role;
+        this.profilePicture = profilePicture;
     }
 
     public Long getUserId() {
@@ -52,5 +55,13 @@ public class UserProfileResponse {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
     }
 }

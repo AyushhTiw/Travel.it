@@ -22,6 +22,9 @@ public class User {
     @Column(nullable = false)
     private String role = "USER";
 
+    @Column(length = 500)
+    private String profilePicture;
+
     public User() {
     }
 
@@ -66,5 +69,13 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
     }
 }
