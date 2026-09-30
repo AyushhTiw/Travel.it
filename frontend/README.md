@@ -100,3 +100,8 @@ are live — no other file needs to change.
 - Geolocation is requested only when the user presses "Use my location".
 - Every API-driven screen has loading, empty, error and success states.
 - No user data is hardcoded anywhere; all of it comes from the authenticated account.
+
+## Deployment
+
+This frontend is deployed on Vercel with automatic deployments from the main branch.
+Environment variables are configured in the Vercel dashboard.
