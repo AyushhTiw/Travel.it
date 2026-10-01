@@ -50,7 +50,7 @@ export function ChatInput({ onSend, disabled, placeholder = "Type your message..
   };
 
   return (
-    <div className="flex items-end gap-2 border-t border-border bg-card p-4">
+    <div className="flex items-end gap-2 border-t border-border bg-card p-4" style={{ borderBottomLeftRadius: "2rem", borderBottomRightRadius: "2rem" }}>
       <textarea
         ref={textareaRef}
         value={message}
