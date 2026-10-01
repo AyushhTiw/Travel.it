@@ -170,7 +170,7 @@ public class PlaceService {
     }
 
     // =========================================================
-    // PLACES PAGE SEARCH â€” text query with category filter
+    // PLACES PAGE SEARCH Ã¢â‚¬â€ text query with category filter
     // Used by GET /api/v1/places/search?q=...&category=...
     // When query is blank, falls back to popular tourist attractions
     // =========================================================
@@ -182,7 +182,7 @@ public class PlaceService {
         String includedTypesFilter = buildIncludedTypesFilter(category);
         String body;
 
-        // Add location bias for India (Delhi: 28.6139°N, 77.2090°E, 500km radius)
+        // Add location bias for India (Delhi: 28.6139Â°N, 77.2090Â°E, 500km radius)
         // Prioritizes results from India while allowing the "India" keyword to work naturally
         if (includedTypesFilter != null && !includedTypesFilter.isBlank()) {
             body = "{\"textQuery\": \"" + escapeJson(effectiveQuery) + "\", " +
@@ -225,10 +225,12 @@ public class PlaceService {
         boolean hasCategory = category != null && !category.isBlank() && !"all".equalsIgnoreCase(category);
 
         if (hasQuery && hasCategory) {
-            return query.trim() + " " + categoryToSearchTerm(category) + " India";
+            // Add category term only (don't add "India" as location bias already handles it)
+            return query.trim() + " " + categoryToSearchTerm(category);
         }
         if (hasQuery) {
-            return query.trim() + " India tourist place";
+            // Use query as-is (locationBias already biases toward India)
+            return query.trim();
         }
         if (hasCategory) {
             return "best " + categoryToSearchTerm(category) + " places India";
@@ -434,7 +436,7 @@ public class PlaceService {
     }
 
     // =========================================================
-    // AI INTEGRATION â€” GEOCODING & HIGH-PRECISION NEARBY SEARCH
+    // AI INTEGRATION Ã¢â‚¬â€ GEOCODING & HIGH-PRECISION NEARBY SEARCH
     // =========================================================
 
     public record Coordinates(double latitude, double longitude, String formattedAddress) {}
