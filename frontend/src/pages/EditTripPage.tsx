@@ -21,11 +21,14 @@ export function EditTripPage({ tripId }: { tripId: string }) {
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   useEffect(() => {
+    console.log("[EditTripPage] Loading trip:", tripId);
     const fetchTrip = async () => {
       try {
         const data = await tripService.getById(tripId);
+        console.log("[EditTripPage] Trip loaded:", data);
         setTrip(data);
       } catch (err) {
+        console.error("[EditTripPage] Failed to load trip:", err);
         setLoadError(toFriendlyMessage(err, "Failed to load trip"));
       } finally {
         setIsLoading(false);
@@ -35,18 +38,23 @@ export function EditTripPage({ tripId }: { tripId: string }) {
   }, [tripId]);
 
   const handleSubmit = async (payload: TripPayload) => {
+    console.log("[EditTripPage] Submitting update:", payload);
     setIsSubmitting(true);
     setSubmitError(null);
     try {
       await tripService.update(tripId, payload);
+      console.log("[EditTripPage] Update successful, navigating to trip details");
       navigate({ to: "/trips/$tripId", params: { tripId } });
     } catch (err) {
+      console.error("[EditTripPage] Update failed:", err);
       setSubmitError(toFriendlyMessage(err, "Failed to update trip"));
       setIsSubmitting(false);
     }
   };
 
   const handleBack = () => navigate({ to: "/trips" });
+
+  console.log("[EditTripPage] Render state:", { isLoading, loadError, hasTrip: !!trip });
 
   return (
     <AppLayout
