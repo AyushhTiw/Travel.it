@@ -13,6 +13,9 @@ public class Budget {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+
     @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal totalAmount;
 
@@ -29,9 +32,18 @@ public class Budget {
     public Budget() {
     }
 
-    public Budget(BigDecimal totalAmount, String currency) {
+    public Budget(Long userId, BigDecimal totalAmount, String currency) {
+        this.userId = userId;
         this.totalAmount = totalAmount;
         this.currency = currency;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public Long getId() {
