@@ -171,7 +171,7 @@ public class PlaceService {
     }
 
     // =========================================================
-    // PLACES PAGE SEARCH — text query with category filter
+    // PLACES PAGE SEARCH â€” text query with category filter
     // Used by GET /api/v1/places/search?q=...&category=...
     // When query is blank, falls back to popular tourist attractions
     // =========================================================
@@ -183,12 +183,17 @@ public class PlaceService {
         String includedTypesFilter = buildIncludedTypesFilter(category);
         String body;
 
+        // Add location bias for India (Delhi: 28.6139°N, 77.2090°E, 500km radius)
+        // Prioritizes results from India while allowing the "India" keyword to work naturally
         if (includedTypesFilter != null && !includedTypesFilter.isBlank()) {
             body = "{\"textQuery\": \"" + escapeJson(effectiveQuery) + "\", " +
                    "\"includedType\": \"" + includedTypesFilter + "\", " +
+                   "\"locationBias\": {\"circle\": {\"center\": {\"latitude\": 28.6139, \"longitude\": 77.2090}, \"radius\": 500000.0}}, " +
                    "\"pageSize\": 20}";
         } else {
-            body = "{\"textQuery\": \"" + escapeJson(effectiveQuery) + "\", \"pageSize\": 20}";
+            body = "{\"textQuery\": \"" + escapeJson(effectiveQuery) + "\", " +
+                   "\"locationBias\": {\"circle\": {\"center\": {\"latitude\": 28.6139, \"longitude\": 77.2090}, \"radius\": 500000.0}}, " +
+                   "\"pageSize\": 20}";
         }
 
         try {
@@ -430,7 +435,7 @@ public class PlaceService {
     }
 
     // =========================================================
-    // AI INTEGRATION — GEOCODING & HIGH-PRECISION NEARBY SEARCH
+    // AI INTEGRATION â€” GEOCODING & HIGH-PRECISION NEARBY SEARCH
     // =========================================================
 
     public record Coordinates(double latitude, double longitude, String formattedAddress) {}
