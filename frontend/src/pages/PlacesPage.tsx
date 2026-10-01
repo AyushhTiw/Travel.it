@@ -1,4 +1,4 @@
-﻿import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { MapPin, ExternalLink, Star } from "lucide-react";
 
 import { AppLayout } from "@/components/layout/AppLayout";
@@ -20,8 +20,7 @@ function getMapsUrl(place: GooglePlace): string {
   if (place.googleMapsUrl) return place.googleMapsUrl;
   if (place.latitude && place.longitude)
     return `https://www.google.com/maps/search/?api=1&query=${place.latitude},${place.longitude}`;
-  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.name + " " + (place.address ?? ""))}`;
-}
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.name + " " + (place.address ?? ""))}`;}
 
 function PlaceCard({ place }: { place: GooglePlace }) {
   return (
@@ -67,7 +66,7 @@ function PlaceCard({ place }: { place: GooglePlace }) {
 export function PlacesPage() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("all");
-  const [places, setPlaces] = useState<GooglePlace[] | null>(null);
+  const [places, setPlaces] = useState<GooglePlace[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -77,6 +76,15 @@ export function PlacesPage() {
 
   const fetchPlaces = useCallback(async (q: string, cat: string) => {
     const id = ++requestIdRef.current;
+    
+    // Don't search if query is empty and no filter selected
+    if (!q.trim() && cat === "all") {
+      setPlaces([]);
+      setIsLoading(false);
+      setError(null);
+      return;
+    }
+    
     setIsLoading(true);
     setError(null);
     try {
@@ -91,11 +99,6 @@ export function PlacesPage() {
       if (id === requestIdRef.current) setIsLoading(false);
     }
   }, []);
-
-  // Initial load
-  useEffect(() => {
-    void fetchPlaces("", "all");
-  }, [fetchPlaces]);
 
   // Debounced search on query/category change
   const handleQueryChange = (val: string) => {
@@ -129,7 +132,7 @@ export function PlacesPage() {
         <TravelCategoryFilter selected={category} onChange={handleCategoryChange} />
 
         {/* Count */}
-        {places !== null && !isLoading && (
+        {places.length > 0 && !isLoading && (
           <p className="text-sm text-muted-foreground">
             <span className="font-medium text-foreground">{places.length}</span>
             {" "}{categoryLabel} place{places.length !== 1 ? "s" : ""} found
@@ -142,11 +145,15 @@ export function PlacesPage() {
           <CardSkeletonGrid count={6} />
         ) : error ? (
           <ErrorMessage message={error} onRetry={() => void fetchPlaces(query, category)} />
-        ) : places === null ? null : places.length === 0 ? (
+        ) : places.length === 0 ? (
           <EmptyState
             icon={MapPin}
-            title={query ? `No results for "${query}"` : `No ${categoryLabel} places found`}
-            description="Try a different search term or category."
+            title={query || category !== "all" ? "No results found" : "Search for places"}
+            description={
+              query || category !== "all" 
+                ? "Try a different search term or category."
+                : "Enter a location, landmark, or select a category to discover amazing places."
+            }
           />
         ) : (
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
