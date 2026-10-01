@@ -37,7 +37,7 @@ export function TripsPage() {
           }
         />
       ) : (
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="space-y-8">
           {trips.map((trip) => (
             <TripCard key={trip.id} trip={trip} onDelete={reload} />
           ))}
