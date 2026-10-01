@@ -23,6 +23,9 @@ WORKDIR /app
 
 COPY --from=build /app/target/*.jar app.jar
 
-EXPOSE 10000
+# Render provides PORT environment variable
+# Expose it for documentation (actual port comes from $PORT at runtime)
+EXPOSE ${PORT:-10000}
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Use shell form to allow environment variable expansion
+ENTRYPOINT java -Dserver.port=${PORT:-10000} -jar app.jar
