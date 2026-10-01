@@ -170,7 +170,7 @@ public class PlaceService {
     }
 
     // =========================================================
-    // PLACES PAGE SEARCH Ã¢â‚¬â€ text query with category filter
+    // PLACES PAGE SEARCH ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â text query with category filter
     // Used by GET /api/v1/places/search?q=...&category=...
     // When query is blank, falls back to popular tourist attractions
     // =========================================================
@@ -182,7 +182,7 @@ public class PlaceService {
         String includedTypesFilter = buildIncludedTypesFilter(category);
         String body;
 
-        // Add location bias for India (Delhi: 28.6139Â°N, 77.2090Â°E, 500km radius)
+        // Add location bias for India (Delhi: 28.6139Ã‚Â°N, 77.2090Ã‚Â°E, 500km radius)
         // Prioritizes results from India while allowing the "India" keyword to work naturally
         if (includedTypesFilter != null && !includedTypesFilter.isBlank()) {
             body = "{\"textQuery\": \"" + escapeJson(effectiveQuery) + "\", " +
@@ -216,7 +216,10 @@ public class PlaceService {
             return result;
         } catch (Exception e) {
             System.err.println("[PlacesSearch] ERROR: " + e.getMessage());
-            throw new RuntimeException("Failed to search places: " + e.getMessage(), e);
+            e.printStackTrace();
+            // Log the request body for debugging
+            System.err.println("[PlacesSearch] Request body was: " + body);
+            throw new RuntimeException("Failed to search places: " + e.getMessage() + " | Check logs for details", e);
         }
     }
 
@@ -436,7 +439,7 @@ public class PlaceService {
     }
 
     // =========================================================
-    // AI INTEGRATION Ã¢â‚¬â€ GEOCODING & HIGH-PRECISION NEARBY SEARCH
+    // AI INTEGRATION ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â GEOCODING & HIGH-PRECISION NEARBY SEARCH
     // =========================================================
 
     public record Coordinates(double latitude, double longitude, String formattedAddress) {}
