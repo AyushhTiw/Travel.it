@@ -6,6 +6,7 @@ import com.travelit.budget.dto.CreateBudgetRequest;
 import com.travelit.budget.dto.UpdateBudgetItemRequest;
 import com.travelit.budget.service.BudgetService;
 import jakarta.validation.Valid;
+import org.springframework.security.core.Authentication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,44 +24,48 @@ public class BudgetController {
 
     @PostMapping
     public ResponseEntity<BudgetResponse> createBudget(
-            @Valid @RequestBody CreateBudgetRequest request
+            @Valid @RequestBody CreateBudgetRequest request,
+            Authentication auth
     ) {
         return ResponseEntity.ok(
-                budgetService.createBudget(request)
+                budgetService.createBudget(request, auth)
         );
     }
 
     @GetMapping
-    public ResponseEntity<List<BudgetResponse>> getAllBudgets() {
+    public ResponseEntity<List<BudgetResponse>> getAllBudgets(Authentication auth) {
         return ResponseEntity.ok(
-                budgetService.getAllBudgets()
+                budgetService.getAllBudgets(auth)
         );
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<BudgetResponse> getBudget(
-            @PathVariable Long id
+            @PathVariable Long id,
+            Authentication auth
     ) {
         return ResponseEntity.ok(
-                budgetService.getBudget(id)
+                budgetService.getBudget(id, auth)
         );
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBudget(
-            @PathVariable Long id
+            @PathVariable Long id,
+            Authentication auth
     ) {
-        budgetService.deleteBudget(id);
+        budgetService.deleteBudget(id, auth);
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/{budgetId}/items")
     public ResponseEntity<BudgetResponse> addBudgetItem(
             @PathVariable Long budgetId,
-            @Valid @RequestBody CreateBudgetItemRequest request
+            @Valid @RequestBody CreateBudgetItemRequest request,
+            Authentication auth
     ) {
         return ResponseEntity.ok(
-                budgetService.addBudgetItem(budgetId, request)
+                budgetService.addBudgetItem(budgetId, request, auth)
         );
     }
 
@@ -68,13 +73,15 @@ public class BudgetController {
     public ResponseEntity<BudgetResponse> updateBudgetItem(
             @PathVariable Long budgetId,
             @PathVariable Long itemId,
-            @Valid @RequestBody UpdateBudgetItemRequest request
+            @Valid @RequestBody UpdateBudgetItemRequest request,
+            Authentication auth
     ) {
         return ResponseEntity.ok(
                 budgetService.updateBudgetItem(
                         budgetId,
                         itemId,
-                        request
+                        request,
+                        auth
                 )
         );
     }
@@ -82,12 +89,14 @@ public class BudgetController {
     @DeleteMapping("/{budgetId}/items/{itemId}")
     public ResponseEntity<BudgetResponse> removeBudgetItem(
             @PathVariable Long budgetId,
-            @PathVariable Long itemId
+            @PathVariable Long itemId,
+            Authentication auth
     ) {
         return ResponseEntity.ok(
                 budgetService.removeBudgetItem(
                         budgetId,
-                        itemId
+                        itemId,
+                        auth
                 )
         );
     }
