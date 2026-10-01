@@ -25,7 +25,7 @@ import { Route as AuthenticatedPlacesPlaceIdRouteImport } from './routes/_authen
 import { Route as AuthenticatedTripsIndexRouteImport } from './routes/_authenticated/trips.index'
 import { Route as AuthenticatedTripsTripIdRouteImport } from './routes/_authenticated/trips.$tripId'
 import { Route as AuthenticatedTripsCreateRouteImport } from './routes/_authenticated/trips.create'
-import { Route as AuthenticatedTripsTripIdEditRouteImport } from './routes/_authenticated/trips.$tripId.edit'
+import { Route as AuthenticatedTripsTripIdEditRouteImport } from './routes/_authenticated/trips.$tripId_.edit'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -114,9 +114,9 @@ const AuthenticatedTripsCreateRoute =
   } as any)
 const AuthenticatedTripsTripIdEditRoute =
   AuthenticatedTripsTripIdEditRouteImport.update({
-    id: '/edit',
-    path: '/edit',
-    getParentRoute: () => AuthenticatedTripsTripIdRoute,
+    id: '/trips/$tripId_/edit',
+    path: '/trips/$tripId/edit',
+    getParentRoute: () => AuthenticatedRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -130,7 +130,7 @@ export interface FileRoutesByFullPath {
   '/oauth2/success': typeof Oauth2SuccessRoute
   '/destinations/$destinationId': typeof AuthenticatedDestinationsDestinationIdRoute
   '/places/$placeId': typeof AuthenticatedPlacesPlaceIdRoute
-  '/trips/$tripId': typeof AuthenticatedTripsTripIdRouteWithChildren
+  '/trips/$tripId': typeof AuthenticatedTripsTripIdRoute
   '/trips/create': typeof AuthenticatedTripsCreateRoute
   '/destinations/': typeof AuthenticatedDestinationsIndexRoute
   '/places/': typeof AuthenticatedPlacesIndexRoute
@@ -148,7 +148,7 @@ export interface FileRoutesByTo {
   '/oauth2/success': typeof Oauth2SuccessRoute
   '/destinations/$destinationId': typeof AuthenticatedDestinationsDestinationIdRoute
   '/places/$placeId': typeof AuthenticatedPlacesPlaceIdRoute
-  '/trips/$tripId': typeof AuthenticatedTripsTripIdRouteWithChildren
+  '/trips/$tripId': typeof AuthenticatedTripsTripIdRoute
   '/trips/create': typeof AuthenticatedTripsCreateRoute
   '/destinations': typeof AuthenticatedDestinationsIndexRoute
   '/places': typeof AuthenticatedPlacesIndexRoute
@@ -168,12 +168,12 @@ export interface FileRoutesById {
   '/oauth2/success': typeof Oauth2SuccessRoute
   '/_authenticated/destinations/$destinationId': typeof AuthenticatedDestinationsDestinationIdRoute
   '/_authenticated/places/$placeId': typeof AuthenticatedPlacesPlaceIdRoute
-  '/_authenticated/trips/$tripId': typeof AuthenticatedTripsTripIdRouteWithChildren
+  '/_authenticated/trips/$tripId': typeof AuthenticatedTripsTripIdRoute
   '/_authenticated/trips/create': typeof AuthenticatedTripsCreateRoute
   '/_authenticated/destinations/': typeof AuthenticatedDestinationsIndexRoute
   '/_authenticated/places/': typeof AuthenticatedPlacesIndexRoute
   '/_authenticated/trips/': typeof AuthenticatedTripsIndexRoute
-  '/_authenticated/trips/$tripId/edit': typeof AuthenticatedTripsTripIdEditRoute
+  '/_authenticated/trips/$tripId_/edit': typeof AuthenticatedTripsTripIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -230,7 +230,7 @@ export interface FileRouteTypes {
     | '/_authenticated/destinations/'
     | '/_authenticated/places/'
     | '/_authenticated/trips/'
-    | '/_authenticated/trips/$tripId/edit'
+    | '/_authenticated/trips/$tripId_/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -355,29 +355,15 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTripsCreateRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
-    '/_authenticated/trips/$tripId/edit': {
-      id: '/_authenticated/trips/$tripId/edit'
-      path: '/edit'
+    '/_authenticated/trips/$tripId_/edit': {
+      id: '/_authenticated/trips/$tripId_/edit'
+      path: '/trips/$tripId/edit'
       fullPath: '/trips/$tripId/edit'
       preLoaderRoute: typeof AuthenticatedTripsTripIdEditRouteImport
-      parentRoute: typeof AuthenticatedTripsTripIdRoute
+      parentRoute: typeof AuthenticatedRoute
     }
   }
 }
-
-interface AuthenticatedTripsTripIdRouteChildren {
-  AuthenticatedTripsTripIdEditRoute: typeof AuthenticatedTripsTripIdEditRoute
-}
-
-const AuthenticatedTripsTripIdRouteChildren: AuthenticatedTripsTripIdRouteChildren =
-  {
-    AuthenticatedTripsTripIdEditRoute: AuthenticatedTripsTripIdEditRoute,
-  }
-
-const AuthenticatedTripsTripIdRouteWithChildren =
-  AuthenticatedTripsTripIdRoute._addFileChildren(
-    AuthenticatedTripsTripIdRouteChildren,
-  )
 
 interface AuthenticatedRouteChildren {
   AuthenticatedBudgetRoute: typeof AuthenticatedBudgetRoute
@@ -386,11 +372,12 @@ interface AuthenticatedRouteChildren {
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedDestinationsDestinationIdRoute: typeof AuthenticatedDestinationsDestinationIdRoute
   AuthenticatedPlacesPlaceIdRoute: typeof AuthenticatedPlacesPlaceIdRoute
-  AuthenticatedTripsTripIdRoute: typeof AuthenticatedTripsTripIdRouteWithChildren
+  AuthenticatedTripsTripIdRoute: typeof AuthenticatedTripsTripIdRoute
   AuthenticatedTripsCreateRoute: typeof AuthenticatedTripsCreateRoute
   AuthenticatedDestinationsIndexRoute: typeof AuthenticatedDestinationsIndexRoute
   AuthenticatedPlacesIndexRoute: typeof AuthenticatedPlacesIndexRoute
   AuthenticatedTripsIndexRoute: typeof AuthenticatedTripsIndexRoute
+  AuthenticatedTripsTripIdEditRoute: typeof AuthenticatedTripsTripIdEditRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
@@ -401,11 +388,12 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedDestinationsDestinationIdRoute:
     AuthenticatedDestinationsDestinationIdRoute,
   AuthenticatedPlacesPlaceIdRoute: AuthenticatedPlacesPlaceIdRoute,
-  AuthenticatedTripsTripIdRoute: AuthenticatedTripsTripIdRouteWithChildren,
+  AuthenticatedTripsTripIdRoute: AuthenticatedTripsTripIdRoute,
   AuthenticatedTripsCreateRoute: AuthenticatedTripsCreateRoute,
   AuthenticatedDestinationsIndexRoute: AuthenticatedDestinationsIndexRoute,
   AuthenticatedPlacesIndexRoute: AuthenticatedPlacesIndexRoute,
   AuthenticatedTripsIndexRoute: AuthenticatedTripsIndexRoute,
+  AuthenticatedTripsTripIdEditRoute: AuthenticatedTripsTripIdEditRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
