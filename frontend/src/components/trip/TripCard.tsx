@@ -16,6 +16,7 @@ export function TripCard({ trip, onDelete }: { trip: Trip; onDelete?: () => void
   const handleEdit = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    console.log("[TripCard] Edit clicked, navigating to edit page");
     navigate({ to: "/trips/$tripId/edit", params: { tripId: String(trip.id) } });
   };
 
@@ -46,13 +47,16 @@ export function TripCard({ trip, onDelete }: { trip: Trip; onDelete?: () => void
   };
 
   return (
-    <Link
-      to="/trips/$tripId"
-      params={{ tripId: String(trip.id) }}
-      className="group relative block rounded-3xl bg-ink px-6 py-10 text-ink-foreground transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg sm:px-10"
-    >
-      <div className="flex items-start justify-between gap-4">
-        <div className="min-w-0 flex-1">
+    <div className="group relative block rounded-3xl bg-ink px-6 py-10 text-ink-foreground transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg sm:px-10">
+      <Link
+        to="/trips/$tripId"
+        params={{ tripId: String(trip.id) }}
+        className="absolute inset-0 rounded-3xl"
+        aria-label={`View ${trip.title}`}
+      />
+      
+      <div className="relative z-10 flex items-start justify-between gap-4">
+        <div className="min-w-0 flex-1 pointer-events-none">
           <p className="text-xs font-semibold uppercase tracking-wide text-accent">Trip</p>
           <h3 className="mt-3 text-3xl font-semibold sm:text-4xl">{trip.title}</h3>
           <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm text-ink-foreground/75">
@@ -70,8 +74,9 @@ export function TripCard({ trip, onDelete }: { trip: Trip; onDelete?: () => void
             <p className="mt-5 max-w-2xl text-sm text-ink-foreground/75">{trip.description}</p>
           ) : null}
         </div>
-        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-auto">
           <button
+            type="button"
             onClick={handleEdit}
             className="p-2 rounded-lg hover:bg-ink-foreground/10 text-ink-foreground/75 hover:text-accent transition-colors"
             aria-label="Edit trip"
@@ -80,6 +85,7 @@ export function TripCard({ trip, onDelete }: { trip: Trip; onDelete?: () => void
             <Edit2 className="size-5" />
           </button>
           <button
+            type="button"
             onClick={handleDeleteClick}
             className="p-2 rounded-lg hover:bg-destructive/20 text-ink-foreground/75 hover:text-destructive transition-colors"
             aria-label="Delete trip"
@@ -92,12 +98,16 @@ export function TripCard({ trip, onDelete }: { trip: Trip; onDelete?: () => void
 
       {showConfirm && (
         <div
-          className="absolute inset-0 bg-ink/98 backdrop-blur-sm rounded-3xl flex flex-col items-center justify-center gap-3 p-6"
-          onClick={(e) => e.preventDefault()}
+          className="absolute inset-0 z-20 bg-ink/98 backdrop-blur-sm rounded-3xl flex flex-col items-center justify-center gap-3 p-6"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
         >
           <p className="text-sm font-medium text-center text-ink-foreground">Delete this trip?</p>
           <div className="flex gap-2">
             <button
+              type="button"
               onClick={handleCancelDelete}
               disabled={isDeleting}
               className="px-4 py-2 rounded-lg border border-ink-foreground/20 bg-ink-foreground/10 text-sm font-medium text-ink-foreground hover:bg-ink-foreground/20 transition-colors disabled:opacity-50"
@@ -105,6 +115,7 @@ export function TripCard({ trip, onDelete }: { trip: Trip; onDelete?: () => void
               Cancel
             </button>
             <button
+              type="button"
               onClick={handleConfirmDelete}
               disabled={isDeleting}
               className="px-4 py-2 rounded-lg bg-destructive text-destructive-foreground text-sm font-medium hover:bg-destructive/90 transition-colors disabled:opacity-50"
@@ -114,6 +125,6 @@ export function TripCard({ trip, onDelete }: { trip: Trip; onDelete?: () => void
           </div>
         </div>
       )}
-    </Link>
+    </div>
   );
 }
