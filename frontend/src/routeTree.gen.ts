@@ -25,6 +25,7 @@ import { Route as AuthenticatedPlacesPlaceIdRouteImport } from './routes/_authen
 import { Route as AuthenticatedTripsIndexRouteImport } from './routes/_authenticated/trips.index'
 import { Route as AuthenticatedTripsTripIdRouteImport } from './routes/_authenticated/trips.$tripId'
 import { Route as AuthenticatedTripsCreateRouteImport } from './routes/_authenticated/trips.create'
+import { Route as AuthenticatedTripsTripIdEditRouteImport } from './routes/_authenticated/trips.$tripId.edit'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -111,6 +112,12 @@ const AuthenticatedTripsCreateRoute =
     path: '/trips/create',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedTripsTripIdEditRoute =
+  AuthenticatedTripsTripIdEditRouteImport.update({
+    id: '/edit',
+    path: '/edit',
+    getParentRoute: () => AuthenticatedTripsTripIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -123,11 +130,12 @@ export interface FileRoutesByFullPath {
   '/oauth2/success': typeof Oauth2SuccessRoute
   '/destinations/$destinationId': typeof AuthenticatedDestinationsDestinationIdRoute
   '/places/$placeId': typeof AuthenticatedPlacesPlaceIdRoute
-  '/trips/$tripId': typeof AuthenticatedTripsTripIdRoute
+  '/trips/$tripId': typeof AuthenticatedTripsTripIdRouteWithChildren
   '/trips/create': typeof AuthenticatedTripsCreateRoute
   '/destinations/': typeof AuthenticatedDestinationsIndexRoute
   '/places/': typeof AuthenticatedPlacesIndexRoute
   '/trips/': typeof AuthenticatedTripsIndexRoute
+  '/trips/$tripId/edit': typeof AuthenticatedTripsTripIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -140,11 +148,12 @@ export interface FileRoutesByTo {
   '/oauth2/success': typeof Oauth2SuccessRoute
   '/destinations/$destinationId': typeof AuthenticatedDestinationsDestinationIdRoute
   '/places/$placeId': typeof AuthenticatedPlacesPlaceIdRoute
-  '/trips/$tripId': typeof AuthenticatedTripsTripIdRoute
+  '/trips/$tripId': typeof AuthenticatedTripsTripIdRouteWithChildren
   '/trips/create': typeof AuthenticatedTripsCreateRoute
   '/destinations': typeof AuthenticatedDestinationsIndexRoute
   '/places': typeof AuthenticatedPlacesIndexRoute
   '/trips': typeof AuthenticatedTripsIndexRoute
+  '/trips/$tripId/edit': typeof AuthenticatedTripsTripIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -159,11 +168,12 @@ export interface FileRoutesById {
   '/oauth2/success': typeof Oauth2SuccessRoute
   '/_authenticated/destinations/$destinationId': typeof AuthenticatedDestinationsDestinationIdRoute
   '/_authenticated/places/$placeId': typeof AuthenticatedPlacesPlaceIdRoute
-  '/_authenticated/trips/$tripId': typeof AuthenticatedTripsTripIdRoute
+  '/_authenticated/trips/$tripId': typeof AuthenticatedTripsTripIdRouteWithChildren
   '/_authenticated/trips/create': typeof AuthenticatedTripsCreateRoute
   '/_authenticated/destinations/': typeof AuthenticatedDestinationsIndexRoute
   '/_authenticated/places/': typeof AuthenticatedPlacesIndexRoute
   '/_authenticated/trips/': typeof AuthenticatedTripsIndexRoute
+  '/_authenticated/trips/$tripId/edit': typeof AuthenticatedTripsTripIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -183,6 +193,7 @@ export interface FileRouteTypes {
     | '/destinations/'
     | '/places/'
     | '/trips/'
+    | '/trips/$tripId/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -200,6 +211,7 @@ export interface FileRouteTypes {
     | '/destinations'
     | '/places'
     | '/trips'
+    | '/trips/$tripId/edit'
   id:
     | '__root__'
     | '/'
@@ -218,6 +230,7 @@ export interface FileRouteTypes {
     | '/_authenticated/destinations/'
     | '/_authenticated/places/'
     | '/_authenticated/trips/'
+    | '/_authenticated/trips/$tripId/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -342,8 +355,29 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTripsCreateRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/trips/$tripId/edit': {
+      id: '/_authenticated/trips/$tripId/edit'
+      path: '/edit'
+      fullPath: '/trips/$tripId/edit'
+      preLoaderRoute: typeof AuthenticatedTripsTripIdEditRouteImport
+      parentRoute: typeof AuthenticatedTripsTripIdRoute
+    }
   }
 }
+
+interface AuthenticatedTripsTripIdRouteChildren {
+  AuthenticatedTripsTripIdEditRoute: typeof AuthenticatedTripsTripIdEditRoute
+}
+
+const AuthenticatedTripsTripIdRouteChildren: AuthenticatedTripsTripIdRouteChildren =
+  {
+    AuthenticatedTripsTripIdEditRoute: AuthenticatedTripsTripIdEditRoute,
+  }
+
+const AuthenticatedTripsTripIdRouteWithChildren =
+  AuthenticatedTripsTripIdRoute._addFileChildren(
+    AuthenticatedTripsTripIdRouteChildren,
+  )
 
 interface AuthenticatedRouteChildren {
   AuthenticatedBudgetRoute: typeof AuthenticatedBudgetRoute
@@ -352,7 +386,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedDestinationsDestinationIdRoute: typeof AuthenticatedDestinationsDestinationIdRoute
   AuthenticatedPlacesPlaceIdRoute: typeof AuthenticatedPlacesPlaceIdRoute
-  AuthenticatedTripsTripIdRoute: typeof AuthenticatedTripsTripIdRoute
+  AuthenticatedTripsTripIdRoute: typeof AuthenticatedTripsTripIdRouteWithChildren
   AuthenticatedTripsCreateRoute: typeof AuthenticatedTripsCreateRoute
   AuthenticatedDestinationsIndexRoute: typeof AuthenticatedDestinationsIndexRoute
   AuthenticatedPlacesIndexRoute: typeof AuthenticatedPlacesIndexRoute
@@ -367,7 +401,7 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedDestinationsDestinationIdRoute:
     AuthenticatedDestinationsDestinationIdRoute,
   AuthenticatedPlacesPlaceIdRoute: AuthenticatedPlacesPlaceIdRoute,
-  AuthenticatedTripsTripIdRoute: AuthenticatedTripsTripIdRoute,
+  AuthenticatedTripsTripIdRoute: AuthenticatedTripsTripIdRouteWithChildren,
   AuthenticatedTripsCreateRoute: AuthenticatedTripsCreateRoute,
   AuthenticatedDestinationsIndexRoute: AuthenticatedDestinationsIndexRoute,
   AuthenticatedPlacesIndexRoute: AuthenticatedPlacesIndexRoute,
