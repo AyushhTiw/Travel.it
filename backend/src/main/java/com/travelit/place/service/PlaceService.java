@@ -29,18 +29,17 @@ public class PlaceService {
     private String googleMapsApiKey;
 
     private static final Set<String> EXCLUDED_TYPES = Set.of(
-        "toilet","public_bathroom","clinic","hospital","pharmacy",
-        "doctor","dentist","veterinary_care","school","primary_school",
-        "secondary_school","university","lawyer","accounting",
-        "police","fire_station","bank","atm","insurance_agency",
+        // Essential services are NOT excluded (toilets, hospitals, pharmacies)
+        // Only exclude business/repair services that travelers don't typically need
+        "school","primary_school","secondary_school","university",
+        "lawyer","accounting","insurance_agency","real_estate_agency",
         "storage","laundry","gas_station","car_repair","car_wash",
-        "electrician","plumber","real_estate_agency","funeral_home",
-        "government_office","post_office","courthouse","embassy",
-        "local_government_office","roofing_contractor","painter",
-        "locksmith","moving_company","auto_parts_store","tire_shop",
-        "car_dealer","car_rental","beauty_salon","hair_salon",
-        "hair_care","nail_salon","barber_shop","manufacturer",
-        "wholesaler","preschool","tour_agency"
+        "electrician","plumber","roofing_contractor","painter","locksmith",
+        "moving_company","auto_parts_store","tire_shop","car_dealer",
+        "beauty_salon","hair_salon","hair_care","nail_salon","barber_shop",
+        "manufacturer","wholesaler","preschool","tour_agency",
+        "government_office","post_office","courthouse","embassy","local_government_office",
+        "funeral_home","veterinary_care"
     );
 
     // Category -> included types for nearby search
