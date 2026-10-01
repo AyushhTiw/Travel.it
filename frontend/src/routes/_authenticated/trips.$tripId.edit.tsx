@@ -13,5 +13,6 @@ export const Route = createFileRoute("/_authenticated/trips/$tripId/edit")({
 });
 
 function EditTripRoute() {
-  return <EditTripPage />;
+  const { tripId } = Route.useParams();
+  return <EditTripPage tripId={tripId} />;
 }
