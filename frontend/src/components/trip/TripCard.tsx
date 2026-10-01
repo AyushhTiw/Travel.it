@@ -1,5 +1,5 @@
-import { Link, useNavigate } from "@tanstack/react-router";
-import { CalendarDays, Edit2, MapPin, Trash2 } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { CalendarDays, MapPin, Trash2 } from "lucide-react";
 import { useState } from "react";
 
 import { formatDateRange, daysBetween } from "@/utils/formatDate";
@@ -8,17 +8,9 @@ import { toFriendlyMessage } from "@/services/api";
 import type { Trip } from "@/types/trip";
 
 export function TripCard({ trip, onDelete }: { trip: Trip; onDelete?: () => void }) {
-  const navigate = useNavigate();
   const [isDeleting, setIsDeleting] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const nights = daysBetween(trip.startDate, trip.endDate);
-
-  const handleEdit = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    console.log("[TripCard] Edit clicked, navigating to edit page");
-    navigate({ to: "/trips/$tripId/edit", params: { tripId: String(trip.id) } });
-  };
 
   const handleDeleteClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -75,15 +67,6 @@ export function TripCard({ trip, onDelete }: { trip: Trip; onDelete?: () => void
           ) : null}
         </div>
         <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-auto">
-          <button
-            type="button"
-            onClick={handleEdit}
-            className="p-2 rounded-lg hover:bg-ink-foreground/10 text-ink-foreground/75 hover:text-accent transition-colors"
-            aria-label="Edit trip"
-            disabled={isDeleting}
-          >
-            <Edit2 className="size-5" />
-          </button>
           <button
             type="button"
             onClick={handleDeleteClick}
