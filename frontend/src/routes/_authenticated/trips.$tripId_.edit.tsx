@@ -2,10 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { EditTripPage } from "@/pages/EditTripPage";
 
-export const Route = createFileRoute("/_authenticated/trips/$tripId/edit")({
+export const Route = createFileRoute("/_authenticated/trips/$tripId_/edit")({
   head: () => ({
     meta: [
-      { title: "Edit Trip — Travel.it" },
+      { title: "Edit Trip ï¿½ Travel.it" },
       { name: "description", content: "Update your trip details and dates." },
     ],
   }),
