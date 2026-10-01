@@ -170,7 +170,7 @@ public class PlaceService {
     }
 
     // =========================================================
-    // PLACES PAGE SEARCH ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â text query with category filter
+    // PLACES PAGE SEARCH ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â text query with category filter
     // Used by GET /api/v1/places/search?q=...&category=...
     // When query is blank, falls back to popular tourist attractions
     // =========================================================
@@ -182,16 +182,16 @@ public class PlaceService {
         String includedTypesFilter = buildIncludedTypesFilter(category);
         String body;
 
-        // Add location bias for India (Delhi: 28.6139Ã‚Â°N, 77.2090Ã‚Â°E, 500km radius)
+        // Add location bias for India (Delhi: 28.6139ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â°N, 77.2090ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â°E, 50km radius)
         // Prioritizes results from India while allowing the "India" keyword to work naturally
         if (includedTypesFilter != null && !includedTypesFilter.isBlank()) {
             body = "{\"textQuery\": \"" + escapeJson(effectiveQuery) + "\", " +
                    "\"includedType\": \"" + includedTypesFilter + "\", " +
-                   "\"locationBias\": {\"circle\": {\"center\": {\"latitude\": 28.6139, \"longitude\": 77.2090}, \"radius\": 500000.0}}, " +
+                   "\"locationBias\": {\"circle\": {\"center\": {\"latitude\": 28.6139, \"longitude\": 77.2090}, \"radius\": 50000.0}}, " +
                    "\"pageSize\": 20}";
         } else {
             body = "{\"textQuery\": \"" + escapeJson(effectiveQuery) + "\", " +
-                   "\"locationBias\": {\"circle\": {\"center\": {\"latitude\": 28.6139, \"longitude\": 77.2090}, \"radius\": 500000.0}}, " +
+                   "\"locationBias\": {\"circle\": {\"center\": {\"latitude\": 28.6139, \"longitude\": 77.2090}, \"radius\": 50000.0}}, " +
                    "\"pageSize\": 20}";
         }
 
@@ -439,7 +439,7 @@ public class PlaceService {
     }
 
     // =========================================================
-    // AI INTEGRATION ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â GEOCODING & HIGH-PRECISION NEARBY SEARCH
+    // AI INTEGRATION ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â GEOCODING & HIGH-PRECISION NEARBY SEARCH
     // =========================================================
 
     public record Coordinates(double latitude, double longitude, String formattedAddress) {}
