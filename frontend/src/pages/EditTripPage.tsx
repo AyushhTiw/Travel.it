@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate, useParams } from "@tanstack/react-router";
+import { useState, useEffect } from "react";
+import { useNavigate } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 
 import { AppLayout } from "@/components/layout/AppLayout";
@@ -9,11 +9,9 @@ import { ListSkeleton } from "@/components/common/Loader";
 import { ErrorMessage } from "@/components/common/ErrorMessage";
 import { tripService } from "@/services/tripService";
 import { toFriendlyMessage } from "@/services/api";
-import { useEffect } from "react";
 import type { Trip, TripPayload } from "@/types/trip";
 
-export function EditTripPage() {
-  const { tripId } = useParams({ from: "/trips/$tripId/edit" });
+export function EditTripPage({ tripId }: { tripId: string }) {
   const navigate = useNavigate();
   
   const [trip, setTrip] = useState<Trip | null>(null);
