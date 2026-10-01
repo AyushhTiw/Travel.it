@@ -21,7 +21,7 @@ export function TripHeader({ trip }: { trip: Trip }) {
             <span className="flex items-center gap-1.5">
               <CalendarDays className="size-4 shrink-0" aria-hidden />
               {formatDateRange(trip.startDate, trip.endDate)}
-              {nights > 0 ? ` · ${nights} night${nights === 1 ? "" : "s"}` : ""}
+              {nights > 0 ? ` ?? ${nights} night${nights === 1 ? "" : "s"}` : ""}
             </span>
           </div>
           {trip.description ? (
