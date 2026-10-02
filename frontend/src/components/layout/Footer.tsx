@@ -1,4 +1,5 @@
-import { Link } from "@tanstack/react-router";
+﻿import { Link } from "@tanstack/react-router";
+import { Github } from "lucide-react";
 
 import { Logo } from "@/components/common/Logo";
 
@@ -8,6 +9,8 @@ const FOOTER_LINKS = [
   { to: "/trips", label: "Trips" },
   { to: "/budget", label: "Budget" },
 ] as const;
+
+const GITHUB_URL = "https://github.com/AyushhTiw/Travel.it";
 
 export function Footer() {
   return (
@@ -33,9 +36,20 @@ export function Footer() {
             </ul>
           </div>
         </div>
-        <p className="mt-12 border-t border-ink-foreground/10 pt-6 text-xs text-ink-foreground/50">
-          © {new Date().getFullYear()} Travel.it — Your AI Travel Buddy.
-        </p>
+        <div className="mt-12 flex items-center justify-between border-t border-ink-foreground/10 pt-6">
+          <p className="text-xs text-ink-foreground/50">
+            © {new Date().getFullYear()} Travel.it — Your AI Travel Buddy.
+          </p>
+          <a
+            href={GITHUB_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="View Travel.it on GitHub"
+            className="text-ink-foreground/40 transition-colors hover:text-ink-foreground/80"
+          >
+            <Github className="size-4" aria-hidden />
+          </a>
+        </div>
       </div>
     </footer>
   );
