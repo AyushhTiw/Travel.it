@@ -1,5 +1,5 @@
-import { Link } from "@tanstack/react-router";
-import { ArrowLeft } from "lucide-react";
+﻿import { Link } from "@tanstack/react-router";
+import { ArrowLeft, Github } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { Logo } from "@/components/common/Logo";
@@ -10,6 +10,8 @@ export interface AuthShellProps {
   children: ReactNode;
   footer?: ReactNode;
 }
+
+const GITHUB_URL = "https://github.com/AyushhTiw/Travel.it";
 
 export function AuthShell({ title, subtitle, children, footer }: AuthShellProps) {
   return (
@@ -45,7 +47,18 @@ export function AuthShell({ title, subtitle, children, footer }: AuthShellProps)
             Your intelligent travel companion for discovering places, planning trips, and traveling smarter.
           </p>
         </div>
-        <p className="text-xs text-ink-foreground/50">© {new Date().getFullYear()} Travel.it</p>
+        <div className="flex items-center justify-between">
+          <p className="text-xs text-ink-foreground/50">© {new Date().getFullYear()} Travel.it</p>
+          <a
+            href={GITHUB_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="View Travel.it on GitHub"
+            className="text-ink-foreground/40 transition-colors hover:text-ink-foreground/80"
+          >
+            <Github className="size-4" aria-hidden />
+          </a>
+        </div>
       </aside>
     </div>
   );
