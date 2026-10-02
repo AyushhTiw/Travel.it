@@ -1,107 +1,118 @@
-# Travel.it — Your AI Travel Buddy
+﻿# Travel.it - Frontend
 
-Frontend for Travel.it: discover places, plan trips and track budgets. It talks to an
-existing Spring Boot backend and contains no backend code of its own.
+React + TypeScript frontend for the Travel.it travel planning platform.
+Communicates with the Spring Boot backend via REST API.
 
-## Getting started
+**Live:** https://travelit-tan.vercel.app
 
-```bash
-npm install
-cp .env.example .env
-npm run dev      # local development
-npm run build    # production build
-```
-
-## Environment variables
-
-| Variable | Purpose |
-| --- | --- |
-| `VITE_API_BASE_URL` | Base URL of the Spring Boot API, e.g. `http://localhost:8080/api/v1` |
-
-The backend URL is never hardcoded — every request goes through the single Axios
-instance in `src/services/api.ts`, which reads `import.meta.env.VITE_API_BASE_URL`.
-No secrets belong in this app; the frontend only ever knows the API base URL.
+---
 
 ## Stack
 
-React 19, TypeScript (strict), Vite, Tailwind CSS 4, TanStack Router (the router used by
-this project; React Router is not available here), Axios, Lucide React.
+| Technology | Detail |
+|-----------|--------|
+| React 19 | UI library |
+| TypeScript | Strict mode |
+| Vite | Build tool (ESBuild, fast HMR) |
+| Tailwind CSS | Utility-first styling |
+| shadcn/ui | Accessible component library (Radix UI) |
+| TanStack Router | File-based routing |
+| TanStack Query | Server state, caching, background refetch |
+| Axios | HTTP client |
+| Lucide React | Icon library |
+
+---
+
+## Getting started
+
+    cd frontend
+    npm install
+    cp .env.example .env
+    npm run dev
+
+UI runs on http://localhost:5173
+
+### Environment variable
+
+| Variable | Value |
+|----------|-------|
+| VITE_API_BASE_URL | http://localhost:8080/api/v1 |
+
+The base URL is the only env var. All requests go through the single
+Axios instance in src/services/api.ts - nothing else touches it.
+
+---
 
 ## Folder structure
 
-```
-src/
-  assets/        Logo asset
-  components/
-    auth/        LoginForm, SignupForm, AuthGuard, GuestGuard
-    budget/      BudgetCard, BudgetForm, BudgetItem, BudgetSummary
-    category/    CategoryChip, CategoryFilter
-    common/      Button, Input, Modal, Loader, EmptyState, ErrorMessage, ConfirmDialog, Logo
-    dashboard/   Welcome, QuickActions, UpcomingTrips, NearbyPreview, BudgetOverview
-    destination/ DestinationCard, DestinationGrid, DestinationHeader
-    explore/     ExploreSearch, NearbyPlaces, NearbyPlaceCard, LocationButton
-    layout/      Navbar, Sidebar, Footer, AppLayout, MobileNavigation
-    place/       PlaceCard, PlaceGrid, PlaceDetails
-    trip/        TripCard, TripForm, TripHeader, TripTimeline, ItineraryItem
-  context/       AuthContext
-  hooks/         useAuth, useDestinations, useCategories, usePlaces, useExplore, useTrips, useBudget
-  pages/         Screen-level components rendered by routes
-  routes/        File-based routes (public + `_authenticated` protected subtree)
-  services/      api (Axios instance), endpoints, and one service per backend module
-  types/         Typed contracts for every backend response
-  utils/         tokenStorage, formatDate, formatCurrency, validation
-```
+    src/
+    +-- assets/          Logo
+    +-- components/
+    |   +-- auth/         LoginForm, SignupForm, AuthGuard, GuestGuard
+    |   +-- budget/       BudgetCard, BudgetForm, BudgetItem, BudgetSummary
+    |   +-- category/     CategoryChip, CategoryFilter
+    |   +-- common/       Button, Input, Modal, Loader, EmptyState, Logo
+    |   +-- dashboard/    Welcome, QuickActions, NearbyPreview, BudgetOverview
+    |   +-- destination/  DestinationCard, DestinationGrid
+    |   +-- explore/      ExploreSearch, NearbyPlaces, LocationButton
+    |   +-- layout/       Navbar, Sidebar, Footer, AppLayout
+    |   +-- place/        PlaceCard, PlaceGrid, PlaceDetails
+    |   +-- trip/         TripCard, TripForm, TripTimeline, ItineraryItem
+    |   +-- ai/           Trevvy chat component
+    +-- hooks/           useAuth, useTrips, useBudget, useExplore, ..
+    +-- pages/           Screen-level components (route targets)
+    +-- routes/          File-based route definitions
+    +-- services/        Axios instance + one service per backend module
+    +-- types/           TypeScript contracts for every API response
+    +-- utils/           tokenStorage, formatDate, formatCurrency
 
-## API integration architecture
-
-Strict one-way chain — components never call Axios directly:
-
-```
-Component → Hook → Service → Axios instance (src/services/api.ts) → Spring Boot
-```
-
-Endpoint paths live only in `src/services/endpoints.ts`, so a backend path change is a
-single-file edit.
-
-## Authentication flow
-
-1. Sign up / log in returns `{ accessToken, refreshToken, userId, name, email, role }`.
-2. Tokens are stored only through `src/utils/tokenStorage.ts` — nothing else touches
-   `localStorage`.
-3. The Axios request interceptor attaches `Authorization: Bearer <token>` to every
-   request except `/auth/login`, `/auth/signup` and `/auth/refresh`.
-4. On a `401`, the response interceptor performs a single-flight refresh, retries the
-   original request once, and on failure clears the session and sends the user to
-   `/login`. There is no retry loop.
-5. On startup `AuthContext` restores the session via `GET /auth/me`, falling back to a
-   refresh attempt, and protected pages stay hidden while that check runs.
-6. Logout calls the backend, clears both tokens and the user state, then redirects.
+---
 
 ## Routing
 
-Public: `/`, `/login`, `/signup`. Protected (inside the `_authenticated` layout):
-`/dashboard`, `/explore`, `/destinations`, `/destinations/:destinationId`, `/places`,
-`/places/:placeId`, `/trips`, `/trips/create`, `/trips/:tripId`, `/budget`, `/profile`.
-Signed-in visitors on `/login` or `/signup` are redirected to `/dashboard`; unknown URLs
-render the themed 404 page.
+Public routes: / (landing), /login, /signup
 
-## Backend modules
+Protected routes (inside _authenticated layout):
+/dashboard, /explore, /destinations, /destinations/:id,
+/places, /places/:id, /trips, /trips/create, /trips/:id,
+/budget, /profile
 
-Implemented and wired: Auth, Destination, Category, Place, Explore, Budget.
+Signed-in users on /login or /signup are redirected to /dashboard.
+Unknown URLs render the 404 page.
 
-**Trip is still being implemented on the backend.** `src/services/tripService.ts` holds
-the typed abstraction and a `TRIP_BACKEND_READY` flag set to `false`; it rejects with
-`TripIntegrationPendingError` instead of calling invented endpoints or faking responses.
-Trip screens show a clear "integration pending" state. Flip the flag once the endpoints
-are live — no other file needs to change.
+---
 
-## Notes
+## Authentication flow
 
-- Geolocation is requested only when the user presses "Use my location".
-- Every API-driven screen has loading, empty, error and success states.
-- No user data is hardcoded anywhere; all of it comes from the authenticated account.
+1. Login returns accessToken + refreshToken
+2. Tokens stored only via src/utils/tokenStorage.ts
+3. Axios interceptor attaches Authorization: Bearer header to every request
+4. On 401 - interceptor calls /auth/refresh once, retries original request
+5. On refresh failure - clears session, redirects to /login
+6. On startup - AuthContext restores session via GET /auth/me
+
+---
+
+## API call pattern
+
+Strict one-way chain:
+
+    Component -> Hook -> Service -> Axios (src/services/api.ts) -> Backend
+
+Endpoint paths live only in src/services/endpoints.ts.
+A backend path change is a single-file edit.
+
+---
+
+## Build
+
+    npm run build
+
+Outputs to dist/. Deploy dist/ to any static host (Vercel auto-deploys from main).
+
+---
 
 ## Deployment
 
-This frontend is deployed on Vercel with automatic deployments from the main branch.
-Environment variables are configured in the Vercel dashboard.
+Vercel. Auto-deploys on push to main.
+Set VITE_API_BASE_URL in Vercel environment settings.
