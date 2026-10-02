@@ -88,9 +88,3 @@ UI runs on http://localhost:5173
 | backend/README.md | Backend modules, security, API endpoints |
 | API_DOCUMENTATION.md | All REST endpoints with payloads |
 | DOCKER.md | Docker and Compose usage guide |
-
----
-
-## License
-
-MIT
